@@ -1,5 +1,5 @@
-import logoDark from "../public/logo-dark.svg";
-import logoLight from "../public/logo-light.svg";
+import logoDark from "/logo-dark.svg";
+import logoLight from "/logo-light.svg";
 
 export function Welcome() {
   return (
@@ -25,10 +25,12 @@ export function Welcome() {
               What&apos;s next?
             </p>
             <ul>
-              
-                <li key={1}>
-                  User list
-                </li>
+
+              <li key={1}>
+                <a href="/users" className="text-blue-500 hover:underline">
+                  Users
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
