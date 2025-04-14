@@ -5,3 +5,4 @@ package-lock.json
 # React Router
 /.react-router/
 /build/
+/.vite/

@@ -1,5 +1,5 @@
-import logoDark from "../public/logo-dark.svg";
-import logoLight from "../public/logo-light.svg";
+import logoDark from "./../public/logo-dark.svg";
+import logoLight from "./../public/logo-light.svg";
 
 export function Welcome() {
   return (
@@ -27,7 +27,9 @@ export function Welcome() {
             <ul>
               
                 <li key={1}>
-                  User list
+                  <a href="/users" className="text-blue-500 hover:underline">
+                    Users
+                  </a>
                 </li>
             </ul>
           </nav>
