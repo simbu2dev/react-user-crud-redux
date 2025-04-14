@@ -7,7 +7,11 @@ const UserForm = ({ onSubmit, initialData }: any) => {
             email: "",
             linkedin: "",
             gender: "",
-            address: ""
+            address_line1:"",
+            address_line2:"",
+            state:"",
+            city:"",
+            pin:""
         }
     );
 
@@ -27,7 +31,7 @@ const UserForm = ({ onSubmit, initialData }: any) => {
 
     return (
         <React.Fragment>
-            <form onSubmit={handleSubmit} className="grid grid-cols-6 gap-4 p-4">
+            <form onSubmit={handleSubmit} className="grid grid-cols-5 gap-1 ">
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name</label>
                     <input
@@ -77,10 +81,61 @@ const UserForm = ({ onSubmit, initialData }: any) => {
                     </select>
                 </div>
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">Address</label>
-                    <textarea
-                        name="address"
-                        value={formData.address}
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address_line1">Address Line1</label>
+                    <input
+                        name="address_line1"
+                        value={formData.address_line1}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address_line2">Address Line2</label>
+                    <input
+                        name="address_line2"
+                        value={formData.address_line2}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2">State</label>
+                    <select
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required
+                    >
+                        <option value="">Select State</option>
+                        <option value="male">TN</option>
+                        <option value="female">KA</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2">City</label>
+                    <select
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required
+                    >
+                        <option value="">Select City</option>
+                        <option value="male">Coimbatore</option>
+                        <option value="female">Bangalore</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">PIN</label>
+                    <input
+                        type="text"
+                        name="pin"
+                        value={formData.pin}
                         onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         required
