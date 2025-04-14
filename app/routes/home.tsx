@@ -3,7 +3,7 @@ import { Welcome } from "../welcome/welcome";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
+    { title: "React User CRUD with Redux - Technospurs" },
     { name: "description", content: "Welcome to React Router!" },
   ];
 }
