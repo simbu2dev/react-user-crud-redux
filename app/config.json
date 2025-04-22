@@ -1,0 +1,8 @@
+{
+    "name":{
+        "minLength":5,
+        "maxLength":20,
+        "required":true
+    },    
+    "editable": true
+}
