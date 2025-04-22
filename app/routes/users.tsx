@@ -74,7 +74,7 @@ const UserList = () => {
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                             <h5>                        <span className="text-gray-500">Users</span>                    </h5>
 
-                            <button type="button" className='flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer' onClick={handleAdd}>Add User</button>
+                            <button type="button" className='flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer' onClick={handleAdd}>{!!currentUser ? 'Edit ' : 'Add '}User</button>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -126,12 +126,9 @@ const UserList = () => {
                                                 <tr>
                                                     <td colSpan={5}>
                                                         <div className="p-3">
-                                                            <h6>Address Details</h6>
-                                                            <p><strong>Line 1:</strong> {user.address.line1}</p>
-                                                            <p><strong>Line 2:</strong> {user.address.line2}</p>
-                                                            <p><strong>City:</strong> {user.address.city}</p>
-                                                            <p><strong>State:</strong> {user.address.state}</p>
-                                                            <p><strong>PIN:</strong> {user.address.pin}</p>
+                                                            <h6><strong>Address</strong></h6>
+                                                            <p>{user.address.line1}, {user.address.line2}</p>
+                                                            <p>{user.address.city}, {user.address.state} - {user.address.pin}</p>
                                                         </div>
                                                     </td>
                                                 </tr>

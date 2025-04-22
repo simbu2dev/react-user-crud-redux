@@ -145,9 +145,9 @@ const UserForm = ({ user, onClose, isEdit }: any) => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     >
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                     </select>
                     {formErrors.gender && <span className="text-red-500">{formErrors.gender}</span>}
                 </div>
@@ -218,7 +218,7 @@ const UserForm = ({ user, onClose, isEdit }: any) => {
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
                     >
-                        Submit
+                        {isEdit ? 'Update':'Submit'}
                     </button>
                 </div>
             </form>
