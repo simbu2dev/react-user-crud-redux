@@ -1,26 +1,48 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
+import { deleteUser } from '../redux/actions/userActions';
 import type { Route } from "./+types/users";
 import logoDark from "/logo-dark.svg";
 import logoLight from "/logo-light.svg";
 import UserForm from '../components/UserForm';
-import { addUser, updateUser } from "../redux/userSlice";
+import config from "./../config.json";
 
 const UserList = () => {
 
     const dispatch = useDispatch();
     const users = useSelector((state: any) => state.users.users);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editingIndex, setEditingIndex] = useState(null);
+    const [expandedRows, setExpandedRows] = useState([] as number[]);
+    const [showForm, setShowForm] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
-    const handleAdd = (data: any) => {
-        dispatch(addUser(data));
+    const toggleRow = (id: number) => {
+        if (expandedRows.includes(id)) {
+            setExpandedRows(expandedRows.filter(rowId => rowId !== id));
+        } else {
+            setExpandedRows([...expandedRows, id]);
+        }
     };
 
-    const handleEdit = (index: number, data: any) => {
-        dispatch(updateUser({ index, data }));
-        setIsEditing(false);
+    const handleEdit = (user: any) => {
+        setCurrentUser(user);
+        setShowForm(true);
+    };
+
+    const handleDelete = (id: number) => {
+        if (window.confirm('Are you sure you want to delete this user?')) {
+            dispatch(deleteUser(id));
+        }
+    };
+
+    const handleAdd = () => {
+        setCurrentUser(null);
+        setShowForm(true);
+    };
+
+    const handleCloseForm = () => {
+        setShowForm(false);
+        setCurrentUser(null);
     };
 
     return (
@@ -42,17 +64,17 @@ const UserList = () => {
                         </a>
                     </div>
                     <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-                        {isEditing && (
+                        {showForm && (
                             <UserForm
-                                initialData={editingIndex !== null ? users[editingIndex] : null}
-                                onSubmit={editingIndex !== null ? (data: any) => handleEdit(editingIndex, data) : handleAdd}
+                                user={currentUser}
+                                onClose={handleCloseForm}
+                                isEdit={!!currentUser}
                             />
-
                         )}
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                             <h5>                        <span className="text-gray-500">Users</span>                    </h5>
 
-                            <button type="button" className='flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer' onClick={() => setIsEditing(true)}>Add User</button>
+                            <button type="button" className='flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer' onClick={handleAdd}>Add User</button>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -62,27 +84,60 @@ const UserList = () => {
                                         <th scope="col" className="p-4">Email</th>
                                         <th scope="col" className="p-4">LinkedIn URL</th>
                                         <th scope="col" className="p-4">Gender</th>
-                                        <th scope="col" className="p-4">Address</th>
-                                        <th scope="col" className="p-4">Edit</th>
+                                        <th scope="col" className="p-4">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.map((user: any, index: number) => (
-
+                                    {users.length > 0 ? users.map((user: any, index: number) => (
                                         <React.Fragment key={index}>
-                                            <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                            <tr className="border-b dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => toggleRow(user.id)} style={{ cursor: 'pointer' }}>
                                                 <td scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.name}</td>
                                                 <td scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.email}</td>
-                                                <td scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"><a href="linkedin.com/in/simbu2dev">simbu2dev</a></td>
+                                                <td scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"><a href={user.linkedin} target='_blank'>{user.linkedin}</a></td>
                                                 <td scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.gender}</td>
-                                                <td scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{user.address_line1 + ', ' + user.address_line2}</td>
-                                                <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
+                                                <td>
+                                                    {config.editable && (
+                                                        <>
+                                                            <button
+                                                                type='button'
+                                                                className="btn btn-sm btn-warning mr-2"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleEdit(user);
+                                                                }}
+                                                            >
+                                                                Edit
+                                                            </button>
+                                                            <button
+                                                                type='button'
+                                                                className="btn btn-sm btn-danger"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    handleDelete(user.id);
+                                                                }}
+                                                            >
+                                                                Delete
+                                                            </button>
+                                                        </>
+                                                    )}
                                                 </td>
                                             </tr>
-
+                                            {expandedRows.includes(user.id) && (
+                                                <tr>
+                                                    <td colSpan={5}>
+                                                        <div className="p-3">
+                                                            <h6>Address Details</h6>
+                                                            <p><strong>Line 1:</strong> {user.address.line1}</p>
+                                                            <p><strong>Line 2:</strong> {user.address.line2}</p>
+                                                            <p><strong>City:</strong> {user.address.city}</p>
+                                                            <p><strong>State:</strong> {user.address.state}</p>
+                                                            <p><strong>PIN:</strong> {user.address.pin}</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )}
                                         </React.Fragment>
-                                    ))}
+                                    )) : <React.Fragment key={'no-user'}><tr><td colSpan={5} className='p-20 text-center'>No user found</td></tr></React.Fragment>}
                                 </tbody>
                             </table>
                         </div>
